@@ -46,16 +46,16 @@ function SearchForm() {
         axios.get(`https://api.github.com/repos/${data[0]}/${data[1]}`)
         .then(response => {
             reset();
-            setUser(response.data);
+            setUser([...user, response.data]);
             setSearch(true);
         }).catch(e => {
             console.log(e)
             if(e.response.status === 404) {
-                 alert("Repositório não encontrado!")
+                   alert("Repositório não encontrado!")
             }
         })
     }
-    console.log(user)
+    
     return(
         <>
             <form onSubmit={handleSubmit(handleSearch)} className={classes.root}>
@@ -75,7 +75,7 @@ function SearchForm() {
                     className={classes.button}>Pesquisar</Button>
             </form>
             
-            { search && <UserCard data={user} /> }
+            { search && user.map(element => <UserCard data={element} />) }
         </>
     );
 }

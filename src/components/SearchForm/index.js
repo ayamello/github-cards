@@ -21,7 +21,7 @@ const useStyle = makeStyles(theme => ({
         fontSize: 12,
         height: 40,
         marginLeft: -10,
-        borderRadius: 0
+        borderRadius: 0,
     }
 }));
 

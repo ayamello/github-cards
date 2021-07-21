@@ -5,11 +5,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from 'axios';
 import { useState } from 'react';
+import UserCard from '../UserCard';
 
 const useStyle = makeStyles(theme => ({
     root: {
         width: "100%",
-        height: "100vh",
         textAlign: "center",
         marginTop: 100 
     },
@@ -26,7 +26,8 @@ const useStyle = makeStyles(theme => ({
 
 function SearchForm() {
     const classes = useStyle();
-    const [user, SetUser] = useState({});
+    const [user, setUser] = useState([]);
+    const [search, setSearch] = useState(false); // monitora o clique do botão
 
     const schema = yup.object().shape({
         repositorio: yup.string().required("Campo obrigatório")
@@ -35,35 +36,46 @@ function SearchForm() {
     const {
         register,
         handleSubmit,
-        formState: { errors }
+        formState: { errors },
+        reset
     } = useForm({resolver: yupResolver(schema)});
 
     function handleSearch(data) {
         data = data['repositorio'].split('/');
-        //console.log(data);
         axios.get(`https://api.github.com/repos/${data[0]}/${data[1]}`)
         .then(response => {
-            SetUser(response.data)
-        }).catch(e => console.log(e))
+            reset();
+            setUser(response.data);
+            setSearch(true);
+        }).catch(e => {
+            console.log(e)
+            if(e.response.status === 404) {
+                 alert("Repositório não encontrado!")
+            }
+        })
     }
-
+    console.log(user)
     return(
-        <form onSubmit={handleSubmit(handleSearch)} className={classes.root}>
-            <TextField 
-                label="usuario/repo"
-                variant="outlined"
-                size="small"
-                {...register("repositorio")}
-                error={!!errors.repositorio}
-                helperText={errors.repositorio?.message}
-                className={classes.input}
-            />
-            <Button 
-                type="submit" 
-                variant="contained" 
-                color="primary" 
-                className={classes.button}>Pesquisar</Button>
-        </form>
+        <>
+            <form onSubmit={handleSubmit(handleSearch)} className={classes.root}>
+                <TextField 
+                    label="usuario/repo"
+                    variant="outlined"
+                    size="small"
+                    {...register("repositorio")}
+                    error={!!errors.repositorio}
+                    helperText={errors.repositorio?.message}
+                    className={classes.input}
+                />
+                <Button 
+                    type="submit" 
+                    variant="contained" 
+                    color="primary" 
+                    className={classes.button}>Pesquisar</Button>
+            </form>
+            
+            { search && <UserCard data={user} /> }
+        </>
     );
 }
 

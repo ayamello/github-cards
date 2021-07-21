@@ -3,6 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from 'axios';
+import { useState } from 'react';
 
 const useStyle = makeStyles(theme => ({
     root: {
@@ -12,7 +14,7 @@ const useStyle = makeStyles(theme => ({
         marginTop: 100 
     },
     input: {
-        width: 300,
+        width: 300
     },
     button: {
         fontSize: 12,
@@ -24,6 +26,7 @@ const useStyle = makeStyles(theme => ({
 
 function SearchForm() {
     const classes = useStyle();
+    const [user, SetUser] = useState({});
 
     const schema = yup.object().shape({
         repositorio: yup.string().required("Campo obrigatório")
@@ -36,7 +39,12 @@ function SearchForm() {
     } = useForm({resolver: yupResolver(schema)});
 
     function handleSearch(data) {
-        console.log(data);
+        data = data['repositorio'].split('/');
+        //console.log(data);
+        axios.get(`https://api.github.com/repos/${data[0]}/${data[1]}`)
+        .then(response => {
+            SetUser(response.data)
+        }).catch(e => console.log(e))
     }
 
     return(

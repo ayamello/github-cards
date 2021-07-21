@@ -2,7 +2,6 @@ import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
@@ -44,9 +43,9 @@ function UserCard(data) {
               {dataUser.description}
             </Typography>
           </CardContent>
-          <Button size="small" color="primary" >
+          <a target="_blank" rel="noreferrer" href={`https://github.com/${dataUser.full_name}`} >
             Ir para o repositório
-          </Button>
+          </a>
         </CardActions>
       </Card>
     </div>

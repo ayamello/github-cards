@@ -15,6 +15,18 @@ function App() {
             margin-right: 10px;
         }
         
+        a {
+            text-decoration: none;
+            text-align: center;
+            color: #334D9F;
+            font-weight: 700;
+            font-family: 'Roboto';
+            font-size: 14px;
+        }
+            a:hover {
+                background-color: #F9F9F9;
+            }
+        
     `
     return(
         <Div>

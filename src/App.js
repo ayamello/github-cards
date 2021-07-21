@@ -1,5 +1,11 @@
-export default function App() {
+import SearchForm from './components/SearchForm';
+
+function App() {
     return(
-        <div></div>
+        <div>
+            <SearchForm/>
+        </div>
     );
 }
+
+export default App;

@@ -11,10 +11,11 @@ const useStyle = makeStyles(theme => ({
     root: {
         width: "100%",
         textAlign: "center",
-        marginTop: 100 
+        marginTop: 50 
     },
     input: {
-        width: 300
+        width: 300,
+        backgroundColor: 'white'
     },
     button: {
         fontSize: 12,
@@ -59,7 +60,7 @@ function SearchForm() {
         <>
             <form onSubmit={handleSubmit(handleSearch)} className={classes.root}>
                 <TextField 
-                    label="usuario/repo"
+                    label="usuario/repositorio"
                     variant="outlined"
                     size="small"
                     {...register("repositorio")}
@@ -70,7 +71,7 @@ function SearchForm() {
                 <Button 
                     type="submit" 
                     variant="contained" 
-                    color="primary" 
+                    color="primary"
                     className={classes.button}>Pesquisar</Button>
             </form>
             
